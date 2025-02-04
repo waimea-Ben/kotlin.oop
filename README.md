@@ -1,2 +1,2 @@
-# kotlin.oop
+# kotlin-oop
 leaning about object oriented programming
