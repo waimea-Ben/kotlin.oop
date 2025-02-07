@@ -1,11 +1,10 @@
 fun main() {
     val cat1 = Cat("Tom")
     val cat2 = Cat("mike", 3)
-    println(cat1)
-    println(cat2)
+    val room1 = Room(8, 9, 7)  // Create a room with dimensions
+    println("The volume of room1 is: ${room1.volume()}m³")  // Print the volume of the room
+    println("The interior area of room1 is: ${room1.interiorArea()}m²")  // Print the interior area
 
-    cat1.poke()
-    cat2.pet()
 }
 class Cat(val name : String, var legs: Int = 4) {
     var isSleeping: Boolean = false;
@@ -52,5 +51,18 @@ class Cat(val name : String, var legs: Int = 4) {
         info += "$bff"
 
         return info
+    }
+
+
+}
+
+class Room(val width: Int, val height: Int, val depth: Int) {
+    // Method to calculate volume using the class properties
+    fun volume(): Int {
+        return width * height * depth
+    }
+    fun interiorArea(): Int {
+        // Calculate the area of the four walls and floor/ceiling
+        return 2 * (width * height + height * depth + width * depth)
     }
 }
