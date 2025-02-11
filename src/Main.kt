@@ -26,13 +26,22 @@ fun main() {
     kitchen.info()
     livingRoom.info()
 
-    // Paint rooms
-    bedroom.paint()
-    kitchen.paint()
-    livingRoom.paint()
+    //create windows
+    val bedroomwin = Window(2,3)
+    val kitchenwin = Window(2,1)
+    val livingroomwin1 = Window(2,2)
+    val livingroomwin2 = Window(2,2)
+    val livingroomwin3 = Window(2,24)
 
-    // Show room information after painting
-    println("After painting:")
+    //assign windows
+    bedroom.assignWindow(bedroomwin)
+    kitchen.assignWindow(kitchenwin)
+    livingRoom.assignWindow(livingroomwin1)
+    livingRoom.assignWindow(livingroomwin2)
+    livingRoom.assignWindow(livingroomwin3)
+
+    // Show room information after windows installed
+    println("After windows:")
     bedroom.info()
     kitchen.info()
     livingRoom.info()
@@ -43,6 +52,18 @@ fun main() {
     println("Bedroom: ${bedroom.tinsNeeded(tinCoverage)} tins")
     println("Kitchen: ${kitchen.tinsNeeded(tinCoverage)} tins")
     println("Living Room: ${livingRoom.tinsNeeded(tinCoverage)} tins")
+
+    // Paint rooms
+    bedroom.paint()
+    kitchen.paint()
+    livingRoom.paint()
+    println()
+
+    // Show room information after painting
+    println("After painting:")
+    bedroom.info()
+    kitchen.info()
+    livingRoom.info()
 }
 
 
@@ -94,7 +115,8 @@ class Cat(val name: String, var legs: Int = 4) {
 class Room(val width: Int, val height: Int, val depth: Int) {
     var owner: Person? = null  // Owner of the room
     var colour: String = "unpainted"  // Default color is "unpainted"
-
+    val windows = mutableListOf<Window>()
+    val door = 2
     // Method to calculate volume of the room
     fun volume(): Int {
         return width * height * depth
@@ -102,21 +124,32 @@ class Room(val width: Int, val height: Int, val depth: Int) {
 
     // Method to calculate interior area of the room
     fun interiorArea(): Int {
-        return 2 * (width * height + height * depth + width * depth)
+        var area =  2 * (width * height + height * depth + width * depth) - (door)
+
+        windows.forEach { area -= it.area() }
+
+        return area
     }
 
-    // Method to set the owner of the room (renamed to avoid the clash)
+    // Method to set the owner of the room
     fun assignOwner(newOwner: Person) {
         owner = newOwner
+    }
+
+    // Method to assign a window to the room
+    fun assignWindow(newWindow: Window) {
+        windows.add(newWindow)
     }
 
     // Method to display the room's information (volume, area, and owner)
     fun info() {
         println("Room Info:")
+        println("Owner: ${owner?.name ?: "No owner"}")
         println("Volume: ${volume()}m³")
         println("Interior Area: ${interiorArea()}m²")
-        println("Owner: ${owner?.name ?: "No owner"}")
         println("Colour: $colour")
+        println("Windows: ${windows.count()}")
+//        println("Window: ${window?.area() ?: "No window"}m²")
         println()
     }
 
@@ -137,6 +170,11 @@ class Room(val width: Int, val height: Int, val depth: Int) {
 }
 
 
+class Window(val width: Int, val height: Int) {
+    fun area():Int{
+        return width * height
+    }
+}
 
 // Person class to define people's attributes
 class Person(val name: String, var height: Double, var favcolor: String) {
