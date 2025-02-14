@@ -27,11 +27,12 @@ fun main() {
     livingRoom.info()
 
     //create windows
-    val bedroomwin = Window(2,3)
-    val kitchenwin = Window(2,1)
-    val livingroomwin1 = Window(2,2)
-    val livingroomwin2 = Window(2,2)
-    val livingroomwin3 = Window(2,24)
+    println("After windows:")
+    val bedroomwin = Window(2, 3, "Bedroom Window 1")
+    val kitchenwin = Window(2, 1, "Kitchen Window 1")
+    val livingroomwin1 = Window(2, 2, "Living Room Window 1")
+    val livingroomwin2 = Window(2, 2, "Living Room Window 2")
+    val livingroomwin3 = Window(2, 24, "Living Room Window 3")
 
     //assign windows
     bedroom.assignWindow(bedroomwin)
@@ -41,7 +42,6 @@ fun main() {
     livingRoom.assignWindow(livingroomwin3)
 
     // Show room information after windows installed
-    println("After windows:")
     bedroom.info()
     kitchen.info()
     livingRoom.info()
@@ -138,7 +138,12 @@ class Room(val width: Int, val height: Int, val depth: Int) {
 
     // Method to assign a window to the room
     fun assignWindow(newWindow: Window) {
-        windows.add(newWindow)
+        if (interiorArea() > newWindow.area()){
+            windows.add(newWindow)
+            }
+        else{
+            println("${newWindow.label} is too big for the room")
+        }
     }
 
     // Method to display the room's information (volume, area, and owner)
@@ -170,9 +175,12 @@ class Room(val width: Int, val height: Int, val depth: Int) {
 }
 
 
-class Window(val width: Int, val height: Int) {
+class Window(val width: Int, val height: Int, val label: String) {
     fun area():Int{
         return width * height
+    }
+    override fun toString(): String {
+        return "$label ($width x $height)"
     }
 }
 
